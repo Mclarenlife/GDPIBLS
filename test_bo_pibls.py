@@ -147,7 +147,7 @@ for pid, prob in problems.items():
     exact_eval = prob['exact'](X_eval)
 
     # --- BO-PIBLS ---
-    print(f"\n>>> BO-PIBLS (Bilevel Optimization + Fourier features)")
+    print(f"\n>>> BO-PIBLS (Bilevel Optimization + Fourier features, 100 nodes)")
     bo = BOPIBLS(
         n_map=50, n_enh=50,
         ridge=1e-6, bc_weight=10.0,
@@ -163,13 +163,38 @@ for pid, prob in problems.items():
     else:
         bo.fit_nonlinear(X_int, X_bc, prob['g_torch'],
                          prob['source'], prob['bc'],
-                         n_picard=3)
+                         n_newton=5, damping=1.0)
     t_bo = time.time() - t0
 
     pred_bo = bo.predict(X_eval)
     rmse_bo = compute_rmse(pred_bo, exact_eval)
     print(f"  BO-PIBLS RMSE = {rmse_bo:.4e}  time = {t_bo:.2f}s  "
           f"features = {bo.get_n_features()}")
+
+    # --- BO-PIBLS 200 nodes (fair comparison) ---
+    print(f"\n>>> BO-PIBLS-200 (fair comparison, 200 nodes)")
+    bo200 = BOPIBLS(
+        n_map=100, n_enh=100,
+        ridge=1e-6, bc_weight=10.0,
+        lr=5e-3, epochs=300,
+        lr_lbfgs=0.5, epochs_lbfgs=100,
+        seed=42, verbose=False,
+        freq_init_scale=1.0,
+    )
+
+    t0 = time.time()
+    if prob['type'] == 'linear':
+        bo200.fit_linear(X_int, X_bc, prob['source'], prob['bc'])
+    else:
+        bo200.fit_nonlinear(X_int, X_bc, prob['g_torch'],
+                            prob['source'], prob['bc'],
+                            n_newton=5, damping=1.0)
+    t_bo200 = time.time() - t0
+
+    pred_bo200 = bo200.predict(X_eval)
+    rmse_bo200 = compute_rmse(pred_bo200, exact_eval)
+    print(f"  BO-PIBLS-200 RMSE = {rmse_bo200:.4e}  time = {t_bo200:.2f}s  "
+          f"features = {bo200.get_n_features()}")
 
     # --- Fixed-BLS (PIBLS baseline) ---
     print(f"\n>>> Fixed-BLS (PIBLS baseline, 200 nodes, random features)")
@@ -201,6 +226,7 @@ for pid, prob in problems.items():
     results[pid] = {
         'name': prob['name'],
         'bo_rmse': rmse_bo, 'bo_time': t_bo,
+        'bo200_rmse': rmse_bo200, 'bo200_time': t_bo200,
         'fix_rmse': rmse_fix, 'fix_time': t_fix,
         'pinn_rmse': pinn['rmse'], 'pinn_time': pinn['time'],
     }
@@ -211,6 +237,9 @@ for pid, prob in problems.items():
         print(f"  BO-PIBLS vs PIBLS: {vs_fix:+.1f}%")
     vs_pinn = (pinn['rmse'] - rmse_bo) / pinn['rmse'] * 100
     print(f"  BO-PIBLS vs PINN:  {vs_pinn:+.1f}%")
+    if rmse_fix > 1e-15:
+        vs_fix200 = (rmse_fix - rmse_bo200) / rmse_fix * 100
+        print(f"  BO-PIBLS-200 vs PIBLS (fair): {vs_fix200:+.1f}%")
     speedup = pinn['time'] / max(t_bo, 0.01)
     print(f"  Speed vs PINN: {speedup:.1f}x")
 
@@ -221,21 +250,25 @@ for pid, prob in problems.items():
 print(f"\n{'=' * 70}")
 print("SUMMARY")
 print(f"{'=' * 70}")
-print(f"{'Prob':>4s} | {'BO-PIBLS':>12s} {'time':>6s} | "
-      f"{'PIBLS':>12s} {'time':>6s} | "
+print(f"{'Prob':>4s} | {'BO-100':>12s} {'time':>6s} | "
+      f"{'BO-200':>12s} {'time':>6s} | "
+      f"{'PIBLS-200':>12s} {'time':>6s} | "
       f"{'PINN':>12s} {'time':>6s} | "
-      f"{'BO vs PIBLS':>11s} | {'BO vs PINN':>10s}")
-print("-" * 90)
+      f"{'BO vs FIX':>9s} | {'BO200vsFIX':>10s} | {'BO vs PINN':>10s}")
+print("-" * 130)
 
 for pid in ['P1', 'P2', 'P3', 'P4']:
     r = results[pid]
     vs_fix = (r['fix_rmse'] - r['bo_rmse']) / r['fix_rmse'] * 100 if r['fix_rmse'] > 1e-15 else 0
+    vs_fix200 = (r['fix_rmse'] - r['bo200_rmse']) / r['fix_rmse'] * 100 if r['fix_rmse'] > 1e-15 else 0
     vs_pinn = (r['pinn_rmse'] - r['bo_rmse']) / r['pinn_rmse'] * 100
     print(f"  {pid} | {r['bo_rmse']:>12.4e} {r['bo_time']:>5.1f}s | "
+          f"{r['bo200_rmse']:>12.4e} {r['bo200_time']:>5.1f}s | "
           f"{r['fix_rmse']:>12.4e} {r['fix_time']:>5.1f}s | "
           f"{r['pinn_rmse']:>12.4e} {r['pinn_time']:>5.1f}s | "
-          f"{vs_fix:>+10.1f}% | {vs_pinn:>+9.1f}%")
+          f"{vs_fix:>+8.1f}% | {vs_fix200:>+9.1f}% | {vs_pinn:>+9.1f}%")
 
-print(f"\nNote: BO-PIBLS uses 100 features (50 map + 50 enh)")
+print(f"\nNote: BO-100 = BO-PIBLS (50 map + 50 enh)")
+print(f"      BO-200 = BO-PIBLS (100 map + 100 enh, fair comparison)")
 print(f"      PIBLS uses 200 features (100 map + 100 enh)")
 print(f"      PINN uses 4L-64W architecture")

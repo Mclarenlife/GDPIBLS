@@ -96,6 +96,7 @@ class BOPIBLS:
         self.b_map = None      # Fourier 偏置, (n_map,)
         self.W_enh = None      # 增强层权重, (n_map, n_enh)
         self.b_enh = None      # 增强层偏置, (n_enh,)
+        self._beta_warmstart = None  # Newton 热启动
 
     def _init_params(self, D):
         """Xavier-style 初始化可学习参数"""
@@ -254,18 +255,15 @@ class BOPIBLS:
         return loss, beta, L_pde.item(), L_bc.item()
 
     def _compute_loss_nonlinear(self, X_int, X_bc, g_fn, f_vals, g_vals,
-                                 beta_prev=None):
+                                 n_newton=5, damping=1.0):
         """
-        非线性 PDE 的前向传播
+        非线性 PDE：Newton-in-the-loop 可微分求解 (V1.1b 热启动版)
 
-        对非线性项 g(u)：在当前 u 处线性化，
-        将 -Δu + g(u) = f 转化为线性系统做伪逆求解。
-
-        采用 Picard 迭代策略：
-        1. 用 beta_prev 求 u_prev = H·beta_prev
-        2. 线性化: -ΔH·β + g(u_prev) + g'(u_prev)·(H·β - u_prev) ≈ f
-           => [-ΔH + diag(g'(u_prev))·H]·β ≈ f - g(u_prev) + g'(u_prev)·u_prev
-        3. 伪逆求解新 β
+        改进：
+        - 使用 self._beta_warmstart 热启动（不从线性解重新开始）
+        - 增加默认 Newton 步数到 5
+        - Newton 线性化用 detach，但 solve(A,b) 中 A 依赖 θ → 梯度穿过
+        - 最终残差计算保留完整计算图到 θ
         """
         X_all = torch.cat([X_int, X_bc], dim=0)
         N_int = X_int.shape[0]
@@ -276,34 +274,44 @@ class BOPIBLS:
         Hli = H_lap[:N_int]
         Hb = H[N_int:]
 
-        if beta_prev is None:
-            # 初始猜测：线性 PDE 解
+        # 初始 beta：热启动或线性解
+        if self._beta_warmstart is not None and \
+           self._beta_warmstart.shape[0] == Hi.shape[1]:
+            beta = self._beta_warmstart.detach().clone()
+        else:
+            # 线性初始猜测
             A_lin = torch.cat([-Hli, self.bc_weight * Hb], dim=0)
             b_lin = torch.cat([f_vals, self.bc_weight * g_vals], dim=0)
-            beta_prev = self._solve_beta(A_lin, b_lin)
+            with torch.no_grad():
+                beta = self._solve_beta(A_lin, b_lin).detach()
 
-        # Picard 线性化
-        u_prev = Hi @ beta_prev
-        g_u = g_fn(u_prev)
-        # 对 g_fn 求导：用 autograd
-        u_prev_ad = u_prev.detach().requires_grad_(True)
-        g_u_ad = g_fn(u_prev_ad)
-        gp_u = torch.autograd.grad(g_u_ad.sum(), u_prev_ad)[0].detach()
+        # Newton 迭代（fix β for linearization, solve through θ）
+        for k in range(n_newton):
+            # 当前解和非线性项（detached，仅用于线性化系数）
+            u_cur = (Hi.detach() @ beta).detach()
+            u_cur_rg = u_cur.requires_grad_(True)
+            g_u_rg = g_fn(u_cur_rg)
+            gp_u = torch.autograd.grad(g_u_rg.sum(), u_cur_rg)[0].detach()
+            g_u = g_fn(u_cur).detach()
 
-        # 线性化系统: [-Hli + diag(gp)·Hi]·β = f - g(u_prev) + gp·u_prev
-        A_int = -Hli + gp_u.unsqueeze(1) * Hi
-        b_int = f_vals - g_u.detach() + gp_u * u_prev.detach()
+            # Newton 线性化系统（A 依赖 θ 因为 Hi, Hli 是 θ 的函数）
+            A_int = -Hli + gp_u.unsqueeze(1) * Hi
+            b_int = f_vals - g_u + gp_u * u_cur
 
-        A = torch.cat([A_int, self.bc_weight * Hb], dim=0)
-        b = torch.cat([b_int, self.bc_weight * g_vals], dim=0)
+            A_k = torch.cat([A_int, self.bc_weight * Hb], dim=0)
+            b_k = torch.cat([b_int, self.bc_weight * g_vals], dim=0)
 
-        # 可微伪逆求解
-        beta = self._solve_beta(A, b)
+            # 可微伪逆求解
+            beta_new = self._solve_beta(A_k, b_k)
+            beta = (1 - damping) * beta.detach() + damping * beta_new
+
+        # 保存热启动
+        self._beta_warmstart = beta.detach().clone()
 
         # 真实非线性残差
-        u_int = Hi @ beta
+        u_final = Hi @ beta
         lap_u = Hli @ beta
-        pde_res = -lap_u + g_fn(u_int) - f_vals
+        pde_res = -lap_u + g_fn(u_final) - f_vals
         L_pde = torch.mean(pde_res ** 2)
 
         u_bc = Hb @ beta
@@ -341,23 +349,27 @@ class BOPIBLS:
         )
         return self
 
-    def fit_nonlinear(self, X_int, X_bc, g_fn_np, source_fn, bc_fn,
-                      n_picard=5):
+    def fit_nonlinear(self, X_int, X_bc, g_fn_torch, source_fn, bc_fn,
+                      n_newton=3, damping=0.8):
         """
         求解非线性 PDE: -Δu + g(u) = f, u|∂Ω = h
 
-        在双层优化外增加 Picard 外迭代处理非线性。
+        V1.1 改进：Newton-in-the-loop 策略。
+        不再使用 Picard 外循环，而是在每个 Adam/L-BFGS 步内
+        做 n_newton 次可微分 Newton 迭代。
 
         Parameters
         ----------
-        g_fn_np : callable
-            非线性项 g(u)，numpy 版本（仅用于接口兼容）
+        g_fn_torch : callable
+            非线性项 g(u)，必须兼容 torch 张量
         source_fn : callable
-            源项 f(x)
+            源项 f(x)，numpy 输入
         bc_fn : callable
-            边界条件 h(x)
-        n_picard : int
-            Picard 迭代次数
+            边界条件 h(x)，numpy 输入
+        n_newton : int
+            每个 Adam 步内 Newton 迭代次数
+        damping : float
+            Newton 步阻尼系数 (0,1]
         """
         D = X_int.shape[1]
         self._init_params(D)
@@ -372,61 +384,15 @@ class BOPIBLS:
         self.W_enh = self.W_enh.double().detach().requires_grad_(True)
         self.b_enh = self.b_enh.double().detach().requires_grad_(True)
 
-        # 把 numpy g_fn 转换为 torch 版
-        # 用户传入的 g_fn_np 只用于类型签名兼容
-        # 实际需要用户提供 torch 版，这里根据常见模式自动包装
-        g_fn_torch = g_fn_np  # 假设用户传入的函数兼容 torch
+        g_fn = g_fn_torch
+        self._beta_warmstart = None  # 重置热启动
 
-        beta_prev = None
-        best_loss = float('inf')
-        best_params = None
-
-        for picard in range(n_picard):
-            if self.verbose:
-                print(f"\n--- Picard iteration {picard + 1}/{n_picard} ---")
-
-            # 每轮 Picard 重新构建 compute_loss
-            _beta_prev = beta_prev  # 闭包捕获
-
-            def make_loss_fn(bp):
-                def fn():
-                    return self._compute_loss_nonlinear(
-                        X_int_t, X_bc_t, g_fn_torch, f_vals, g_vals,
-                        beta_prev=bp
-                    )
-                return fn
-
-            loss_fn = make_loss_fn(_beta_prev)
-
-            # 训练双层优化
-            self._train_bilevel(
-                compute_loss_fn=loss_fn,
-                epochs_adam=max(self.epochs // n_picard, 50),
-                epochs_lbfgs=max(self.epochs_lbfgs // n_picard, 30),
+        self._train_bilevel(
+            compute_loss_fn=lambda: self._compute_loss_nonlinear(
+                X_int_t, X_bc_t, g_fn, f_vals, g_vals,
+                n_newton=n_newton, damping=damping
             )
-
-            # 提取当前 beta 用于下轮 Picard（不能用 no_grad，因为内部有 autograd.grad）
-            loss_val, beta_cur, lpde, lbc = loss_fn()
-            beta_prev = beta_cur.detach().clone()
-
-            if loss_val.item() < best_loss:
-                best_loss = loss_val.item()
-                best_params = {
-                    'omega': self.omega.detach().clone(),
-                    'b_map': self.b_map.detach().clone(),
-                    'W_enh': self.W_enh.detach().clone(),
-                    'b_enh': self.b_enh.detach().clone(),
-                    'beta': beta_cur.detach().clone(),
-                }
-
-        # 恢复最优参数
-        if best_params is not None:
-            self.omega = best_params['omega'].requires_grad_(False)
-            self.b_map = best_params['b_map'].requires_grad_(False)
-            self.W_enh = best_params['W_enh'].requires_grad_(False)
-            self.b_enh = best_params['b_enh'].requires_grad_(False)
-            self._final_beta = best_params['beta']
-
+        )
         return self
 
     def _train_bilevel(self, compute_loss_fn,
