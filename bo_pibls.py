@@ -468,7 +468,7 @@ class BOPIBLS:
                 if loss.item() < best_loss:
                     self._final_beta = beta.detach().clone()
 
-                if self.verbose and lbfgs_step[0] % 20 == 0:
+                if self.verbose and lbfgs_step[0] % 100 == 0:
                     print(f"  L-BFGS [{lbfgs_step[0]:>4d}]  "
                           f"loss={loss.item():.4e}  "
                           f"L_pde={lpde:.4e}  L_bc={lbc:.4e}")
@@ -485,6 +485,77 @@ class BOPIBLS:
             if self.verbose:
                 print(f"  L-BFGS final:  loss={final_loss.item():.4e}  "
                       f"L_pde={final_lpde:.4e}  L_bc={final_lbc:.4e}")
+
+    def _build_features_full(self, X):
+        """
+        构建特征矩阵及其逐维一阶、二阶导数（全部解析公式，对 θ 可微）。
+
+        Returns
+        -------
+        H :       (N, n_feat)
+        H_xd :    list of D tensors, each (N, n_feat) — ∂H/∂x_d
+        H_xdxd :  list of D tensors, each (N, n_feat) — ∂²H/∂x_d²
+        H_lap :   (N, n_feat) — Σ_d ∂²H/∂x_d²
+        """
+        N, D = X.shape
+
+        # === 映射层 Fourier ===
+        Z_map = X @ self.omega + self.b_map      # (N, n_map)
+        M = torch.sin(Z_map)                      # (N, n_map)
+        cos_Z = torch.cos(Z_map)                  # (N, n_map)
+
+        M_xd = []
+        M_xdxd = []
+        for d in range(D):
+            omega_d = self.omega[d:d+1, :]         # (1, n_map)
+            M_xd.append(omega_d * cos_Z)           # ∂M/∂x_d
+            M_xdxd.append(-omega_d ** 2 * M)       # ∂²M/∂x_d²
+
+        M_lap = sum(M_xdxd)
+
+        # === 增强层 tanh ===
+        Z_enh = M @ self.W_enh + self.b_enh      # (N, n_enh)
+        E = torch.tanh(Z_enh)
+        sech2 = 1.0 - E ** 2                      # tanh'
+        tanh_dd = -2.0 * E * sech2                # tanh''
+
+        # ds/dx_d 和 d²s/dx_d² 用于链式法则
+        E_xd = []
+        E_xdxd = []
+        for d in range(D):
+            omega_d = self.omega[d:d+1, :]
+            ds_d = (cos_Z * omega_d) @ self.W_enh       # (N, n_enh)
+            d2s_d = (-M * omega_d ** 2) @ self.W_enh    # (N, n_enh)
+            E_xd.append(sech2 * ds_d)
+            E_xdxd.append(tanh_dd * ds_d ** 2 + sech2 * d2s_d)
+
+        E_lap = sum(E_xdxd)
+
+        H = torch.cat([M, E], dim=1)
+        H_xd = [torch.cat([M_xd[d], E_xd[d]], dim=1) for d in range(D)]
+        H_xdxd = [torch.cat([M_xdxd[d], E_xdxd[d]], dim=1) for d in range(D)]
+        H_lap = torch.cat([M_lap, E_lap], dim=1)
+
+        return H, H_xd, H_xdxd, H_lap
+
+    def fit_custom(self, D, compute_loss_fn):
+        """
+        通用 PDE 求解接口。
+
+        Parameters
+        ----------
+        D : int
+            输入维度
+        compute_loss_fn : callable () -> (loss, beta, lpde_val, lbc_val)
+            无参闭包，内部调用 self._build_features_full 和 self._solve_beta
+        """
+        self._init_params(D)
+        self.omega = self.omega.double().detach().requires_grad_(True)
+        self.b_map = self.b_map.double().detach().requires_grad_(True)
+        self.W_enh = self.W_enh.double().detach().requires_grad_(True)
+        self.b_enh = self.b_enh.double().detach().requires_grad_(True)
+        self._train_bilevel(compute_loss_fn)
+        return self
 
     def predict(self, X):
         """
