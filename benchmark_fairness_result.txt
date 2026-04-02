@@ -1,235 +1,222 @@
-Output of terminal 908837c4-f296-43d4-b6bb-49b14a02dd03:
+================================================================================
+�ۺ϶Ա�ʵ��: BO-PIBLS vs PI-ELM vs PINN vs RAR-PINN
+================================================================================
+
+======================================================================
+Problem: P1_LowFreq_Poisson
+======================================================================
+
+  Method: BO-PIBLS
+    Seed 42 (1/5)... RMSE=4.1992e-06, time=15.4s
+    Seed 123 (2/5)... RMSE=4.3243e-06, time=11.9s
+    Seed 456 (3/5)... RMSE=1.1494e-05, time=23.4s
+    Seed 789 (4/5)... RMSE=5.7711e-06, time=12.1s
+    Seed 1024 (5/5)... RMSE=1.2862e-05, time=24.7s
+    => RMSE: 7.7302e-06 +/- 3.6989e-06  Time: 17.5s  (n=5/5)
+
+  Method: PI-ELM
+    Seed 42 (1/5)... RMSE=6.3479e-05, time=0.0s
+    Seed 123 (2/5)... RMSE=9.0297e-06, time=0.0s
+    Seed 456 (3/5)... RMSE=1.4518e-05, time=0.0s
+    Seed 789 (4/5)... RMSE=8.1150e-06, time=0.0s
+    Seed 1024 (5/5)... RMSE=1.4325e-05, time=0.0s
+    => RMSE: 2.1893e-05 +/- 2.0959e-05  Time: 0.0s  (n=5/5)
+
+  Method: PINN-4L-128W
+    Seed 42 (1/5)... RMSE=7.0320e-05, time=529.1s
+    Seed 123 (2/5)... RMSE=3.6988e-05, time=544.3s
+    Seed 456 (3/5)... RMSE=6.8158e-05, time=461.5s
+    Seed 789 (4/5)... RMSE=6.3563e-05, time=469.4s
+    Seed 1024 (5/5)... RMSE=6.0252e-05, time=325.3s
+    => RMSE: 5.9856e-05 +/- 1.1960e-05  Time: 465.9s  (n=5/5)
+
+  Method: PINN-6L-128W
+    Seed 42 (1/5)... RMSE=1.1364e-04, time=359.9s
+    Seed 123 (2/5)... RMSE=5.4861e-05, time=383.6s
+    Seed 456 (3/5)... RMSE=1.4710e-04, time=378.9s
+    Seed 789 (4/5)... RMSE=1.2613e-04, time=399.5s
+    Seed 1024 (5/5)... RMSE=8.4959e-05, time=372.3s
+    => RMSE: 1.0534e-04 +/- 3.2274e-05  Time: 378.8s  (n=5/5)
+
+  Method: RAR-PINN-4L
+    Seed 42 (1/5)... RMSE=6.5192e-05, time=541.7s
+    Seed 123 (2/5)... RMSE=1.2650e-04, time=542.0s
+    Seed 456 (3/5)... RMSE=8.1046e-05, time=541.0s
+    Seed 789 (4/5)... RMSE=4.9101e-05, time=545.9s
+    Seed 1024 (5/5)... RMSE=5.2037e-05, time=578.1s
+    => RMSE: 7.4775e-05 +/- 2.8223e-05  Time: 549.7s  (n=5/5)
+
+======================================================================
+Problem: P2_HighFreq_Poisson
+======================================================================
+
+  Method: BO-PIBLS
+    Seed 42 (1/5)... RMSE=9.0516e-05, time=35.5s
+    Seed 123 (2/5)... RMSE=9.8680e-05, time=43.0s
+    Seed 456 (3/5)... RMSE=7.8419e-05, time=43.1s
+    Seed 789 (4/5)... RMSE=1.3914e-04, time=42.9s
+    Seed 1024 (5/5)... RMSE=1.1305e-04, time=43.3s
+    => RMSE: 1.0396e-04 +/- 2.0886e-05  Time: 41.6s  (n=5/5)
+
+  Method: PI-ELM
+    Seed 42 (1/5)... RMSE=2.1063e-01, time=0.0s
+    Seed 123 (2/5)... RMSE=1.3004e-01, time=0.0s
+    Seed 456 (3/5)... RMSE=1.7552e-01, time=0.0s
+    Seed 789 (4/5)... RMSE=3.3425e-02, time=0.0s
+    Seed 1024 (5/5)... RMSE=2.9439e-02, time=0.0s
+    => RMSE: 1.1581e-01 +/- 7.3493e-02  Time: 0.0s  (n=5/5)
+
+  Method: PINN-4L-128W
+    Seed 42 (1/5)... RMSE=2.8679e-04, time=587.3s
+    Seed 123 (2/5)... RMSE=4.8432e-04, time=586.9s
+    Seed 456 (3/5)... RMSE=3.0360e-04, time=572.5s
+    Seed 789 (4/5)... RMSE=4.1890e-04, time=587.5s
+    Seed 1024 (5/5)... RMSE=1.9900e-04, time=585.1s
+    => RMSE: 3.3852e-04 +/- 1.0107e-04  Time: 583.8s  (n=5/5)
+
+  Method: PINN-6L-128W
+    Seed 42 (1/5)... RMSE=3.8039e-04, time=902.6s
+    Seed 123 (2/5)... RMSE=2.4707e-04, time=904.8s
+    Seed 456 (3/5)... RMSE=4.1130e-04, time=900.9s
+    Seed 789 (4/5)... RMSE=3.5922e-04, time=904.0s
+    Seed 1024 (5/5)... RMSE=2.6596e-04, time=904.4s
+    => RMSE: 3.3279e-04 +/- 6.4720e-05  Time: 903.3s  (n=5/5)
+
+  Method: RAR-PINN-4L
+    Seed 42 (1/5)... RMSE=2.6465e-04, time=1182.6s
+    Seed 123 (2/5)... RMSE=4.6100e-04, time=1202.7s
+    Seed 456 (3/5)... RMSE=3.8287e-04, time=1214.5s
+    Seed 789 (4/5)... RMSE=4.2083e-04, time=1217.3s
+    Seed 1024 (5/5)... RMSE=2.9408e-04, time=1201.4s
+    => RMSE: 3.6468e-04 +/- 7.4500e-05  Time: 1203.7s  (n=5/5)
+
+======================================================================
+Problem: P3_Nonlinear_u3
+======================================================================
+
+  Method: BO-PIBLS
+    Seed 42 (1/5)... RMSE=7.1838e-06, time=20.7s
+    Seed 123 (2/5)... RMSE=1.9250e-05, time=26.2s
+    Seed 456 (3/5)... RMSE=1.6488e-05, time=24.0s
+    Seed 789 (4/5)... RMSE=1.9783e-05, time=26.9s
+    Seed 1024 (5/5)... RMSE=1.9643e-05, time=23.9s
+    => RMSE: 1.6470e-05 +/- 4.7959e-06  Time: 24.3s  (n=5/5)
+
+  Method: PI-ELM
+    Seed 42 (1/5)... RMSE=6.3426e-05, time=0.0s
+    Seed 123 (2/5)... RMSE=9.0360e-06, time=0.0s
+    Seed 456 (3/5)... RMSE=1.4510e-05, time=0.0s
+    Seed 789 (4/5)... RMSE=8.1166e-06, time=0.0s
+    Seed 1024 (5/5)... RMSE=1.4327e-05, time=0.0s
+    => RMSE: 2.1883e-05 +/- 2.0937e-05  Time: 0.0s  (n=5/5)
+
+  Method: PINN-4L-128W
+    Seed 42 (1/5)... RMSE=5.5117e-05, time=237.7s
+    Seed 123 (2/5)... RMSE=5.2451e-05, time=240.7s
+    Seed 456 (3/5)... RMSE=6.7335e-05, time=243.1s
+    Seed 789 (4/5)... RMSE=8.8564e-05, time=246.1s
+    Seed 1024 (5/5)... RMSE=5.3872e-05, time=243.2s
+    => RMSE: 6.3468e-05 +/- 1.3623e-05  Time: 242.2s  (n=5/5)
+
+  Method: PINN-6L-128W
+    Seed 42 (1/5)... RMSE=7.7564e-05, time=379.4s
+    Seed 123 (2/5)... RMSE=7.7806e-05, time=379.5s
+    Seed 456 (3/5)... RMSE=4.4666e-05, time=392.8s
+    Seed 789 (4/5)... RMSE=7.6376e-05, time=398.1s
+    Seed 1024 (5/5)... RMSE=5.7772e-05, time=362.7s
+    => RMSE: 6.6837e-05 +/- 1.3417e-05  Time: 382.5s  (n=5/5)
+
+  Method: RAR-PINN-4L
+    Seed 42 (1/5)... RMSE=6.0558e-05, time=534.5s
+    Seed 123 (2/5)... RMSE=1.1504e-04, time=538.7s
+    Seed 456 (3/5)... RMSE=4.8432e-05, time=522.0s
+    Seed 789 (4/5)... RMSE=9.2010e-05, time=545.0s
+    Seed 1024 (5/5)... RMSE=7.2516e-05, time=534.1s
+    => RMSE: 7.7712e-05 +/- 2.3565e-05  Time: 534.9s  (n=5/5)
+
+======================================================================
+Problem: P4_Nonlinear_sinu
+======================================================================
+
+  Method: BO-PIBLS
+    Seed 42 (1/5)... RMSE=4.5500e-06, time=22.5s
+    Seed 123 (2/5)... RMSE=9.0387e-06, time=18.9s
+    Seed 456 (3/5)... RMSE=9.5485e-06, time=27.2s
+    Seed 789 (4/5)... RMSE=1.0982e-05, time=24.3s
+    Seed 1024 (5/5)... RMSE=1.3310e-05, time=27.1s
+    => RMSE: 9.4858e-06 +/- 2.8785e-06  Time: 24.0s  (n=5/5)
+
+  Method: PI-ELM
+    Seed 42 (1/5)... RMSE=6.3714e-05, time=0.0s
+    Seed 123 (2/5)... RMSE=9.0099e-06, time=0.0s
+    Seed 456 (3/5)... RMSE=1.4507e-05, time=0.0s
+    Seed 789 (4/5)... RMSE=8.1156e-06, time=0.0s
+    Seed 1024 (5/5)... RMSE=1.4318e-05, time=0.0s
+    => RMSE: 2.1933e-05 +/- 2.1056e-05  Time: 0.0s  (n=5/5)
+
+  Method: PINN-4L-128W
+    Seed 42 (1/5)... RMSE=8.4977e-05, time=245.7s
+    Seed 123 (2/5)... RMSE=7.5474e-05, time=237.0s
+    Seed 456 (3/5)... RMSE=7.0555e-05, time=246.0s
+    Seed 789 (4/5)... RMSE=5.2753e-05, time=246.8s
+    Seed 1024 (5/5)... RMSE=7.2021e-05, time=245.3s
+    => RMSE: 7.1156e-05 +/- 1.0483e-05  Time: 244.2s  (n=5/5)
+
+  Method: PINN-6L-128W
+    Seed 42 (1/5)... RMSE=1.0935e-04, time=350.4s
+    Seed 123 (2/5)... RMSE=5.6676e-05, time=371.4s
+    Seed 456 (3/5)... RMSE=8.9224e-05, time=374.1s
+    Seed 789 (4/5)... RMSE=6.4874e-05, time=370.4s
+    Seed 1024 (5/5)... RMSE=7.9015e-05, time=378.3s
+    => RMSE: 7.9827e-05 +/- 1.8548e-05  Time: 368.9s  (n=5/5)
+
+  Method: RAR-PINN-4L
+    Seed 42 (1/5)... RMSE=6.5061e-05, time=572.7s
+    Seed 123 (2/5)... RMSE=6.2587e-05, time=561.5s
+    Seed 456 (3/5)... RMSE=8.8812e-05, time=526.6s
+    Seed 789 (4/5)... RMSE=5.5811e-05, time=523.9s
+    Seed 1024 (5/5)... RMSE=6.9231e-05, time=551.5s
+    => RMSE: 6.8301e-05 +/- 1.1142e-05  Time: 547.2s  (n=5/5)
 
 
-[... PREVIOUS OUTPUT TRUNCATED ...]
+====================================================================================================
+COMPREHENSIVE RESULTS SUMMARY
+====================================================================================================
 
-  |δβ|=3.4154e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2223e+00  L_bc=1.6530e-02  |δβ|=1.3589e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2223e+00  L_bc=1.6530e-02  |δβ|=5.4064e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2223e+00  L_bc=1.6530e-02  |δβ|=2.1159e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2223e+00  L_bc=1.6530e-02  |δβ|=1.0257e-04
-[NL-PIBLS] Newton iter  16: L_pde=2.2223e+00  L_bc=1.6530e-02  |δβ|=5.3320e-06
-[NL-PIBLS] Newton iter  18: L_pde=2.2223e+00  L_bc=1.6530e-02  |δβ|=1.2653e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=3.5328e-43  |δβ|=5.2704e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8948e+00  L_bc=1.4931e-02  |δβ|=2.1224e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2494e+00  L_bc=1.6155e-02  |δβ|=8.4518e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2391e+00  L_bc=1.6205e-02  |δβ|=3.3623e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2388e+00  L_bc=1.6207e-02  |δβ|=1.3376e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2388e+00  L_bc=1.6207e-02  |δβ|=5.3194e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2388e+00  L_bc=1.6207e-02  |δβ|=2.0966e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2388e+00  L_bc=1.6207e-02  |δβ|=1.0704e-04
-[NL-PIBLS] Newton iter  16: L_pde=2.2388e+00  L_bc=1.6207e-02  |δβ|=2.9270e-05
-[NL-PIBLS] Newton iter  18: L_pde=2.2388e+00  L_bc=1.6207e-02  |δβ|=2.2386e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=3.8983e-44  |δβ|=5.3397e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8937e+00  L_bc=1.5196e-02  |δβ|=2.1500e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2456e+00  L_bc=1.6443e-02  |δβ|=8.5622e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2351e+00  L_bc=1.6494e-02  |δβ|=3.4065e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2348e+00  L_bc=1.6496e-02  |δβ|=1.3553e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2348e+00  L_bc=1.6496e-02  |δβ|=5.3902e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2348e+00  L_bc=1.6496e-02  |δβ|=2.1634e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2348e+00  L_bc=1.6496e-02  |δβ|=1.0742e-04
-[NL-PIBLS] Newton iter  16: L_pde=2.2348e+00  L_bc=1.6496e-02  |δβ|=2.3796e-05
-[NL-PIBLS] Newton iter  18: L_pde=2.2348e+00  L_bc=1.6496e-02  |δβ|=1.3618e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=1.4829e-44  |δβ|=5.2831e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8824e+00  L_bc=1.4960e-02  |δβ|=2.1276e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2367e+00  L_bc=1.6187e-02  |δβ|=8.4727e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2263e+00  L_bc=1.6237e-02  |δβ|=3.3707e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2260e+00  L_bc=1.6239e-02  |δβ|=1.3409e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2260e+00  L_bc=1.6239e-02  |δβ|=5.3375e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2260e+00  L_bc=1.6239e-02  |δβ|=2.1200e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2260e+00  L_bc=1.6239e-02  |δβ|=6.0437e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2260e+00  L_bc=1.6239e-02  |δβ|=8.4731e-06
-[NL-PIBLS] Newton iter  18: L_pde=2.2260e+00  L_bc=1.6239e-02  |δβ|=2.6272e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=5.4501e-43  |δβ|=5.3296e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8866e+00  L_bc=1.5215e-02  |δβ|=2.1464e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2382e+00  L_bc=1.6463e-02  |δβ|=8.5477e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2277e+00  L_bc=1.6514e-02  |δβ|=3.4006e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2274e+00  L_bc=1.6516e-02  |δβ|=1.3528e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2274e+00  L_bc=1.6516e-02  |δβ|=5.3821e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2274e+00  L_bc=1.6516e-02  |δβ|=2.1547e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2274e+00  L_bc=1.6516e-02  |δβ|=8.7694e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2274e+00  L_bc=1.6516e-02  |δβ|=3.6563e-05
-[NL-PIBLS] Newton iter  18: L_pde=2.2274e+00  L_bc=1.6516e-02  |δβ|=2.6464e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=6.5067e-44  |δβ|=5.2939e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8897e+00  L_bc=1.4943e-02  |δβ|=2.1315e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2442e+00  L_bc=1.6169e-02  |δβ|=8.4884e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2338e+00  L_bc=1.6219e-02  |δβ|=3.3771e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2335e+00  L_bc=1.6221e-02  |δβ|=1.3435e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2335e+00  L_bc=1.6221e-02  |δβ|=5.3436e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2335e+00  L_bc=1.6221e-02  |δβ|=2.1329e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2335e+00  L_bc=1.6221e-02  |δβ|=6.1882e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2335e+00  L_bc=1.6221e-02  |δβ|=2.0505e-05
-[NL-PIBLS] Newton iter  18: L_pde=2.2335e+00  L_bc=1.6221e-02  |δβ|=1.5979e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=8.3747e-44  |δβ|=5.3462e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8794e+00  L_bc=1.5228e-02  |δβ|=2.1527e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2309e+00  L_bc=1.6477e-02  |δβ|=8.5729e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2204e+00  L_bc=1.6528e-02  |δβ|=3.4108e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2202e+00  L_bc=1.6530e-02  |δβ|=1.3570e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2201e+00  L_bc=1.6530e-02  |δβ|=5.3966e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2201e+00  L_bc=1.6530e-02  |δβ|=2.1523e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2201e+00  L_bc=1.6530e-02  |δβ|=9.4798e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2201e+00  L_bc=1.6530e-02  |δβ|=1.0417e-05
-[NL-PIBLS] Newton iter  18: L_pde=2.2201e+00  L_bc=1.6530e-02  |δβ|=1.5060e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=1.0979e-43  |δβ|=5.2761e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8970e+00  L_bc=1.4929e-02  |δβ|=2.1248e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2516e+00  L_bc=1.6154e-02  |δβ|=8.4614e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2412e+00  L_bc=1.6204e-02  |δβ|=3.3662e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2409e+00  L_bc=1.6206e-02  |δβ|=1.3391e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2409e+00  L_bc=1.6206e-02  |δβ|=5.3239e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2409e+00  L_bc=1.6206e-02  |δβ|=2.1486e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2409e+00  L_bc=1.6206e-02  |δβ|=8.7696e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2409e+00  L_bc=1.6206e-02  |δβ|=5.1769e-06
-[NL-PIBLS] Newton iter  18: L_pde=2.2409e+00  L_bc=1.6206e-02  |δβ|=2.3219e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=7.0332e-43  |δβ|=5.3206e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8945e+00  L_bc=1.5083e-02  |δβ|=2.1426e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2475e+00  L_bc=1.6321e-02  |δβ|=8.5332e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2370e+00  L_bc=1.6371e-02  |δβ|=3.3951e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2368e+00  L_bc=1.6373e-02  |δβ|=1.3508e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2368e+00  L_bc=1.6373e-02  |δβ|=5.3707e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2368e+00  L_bc=1.6373e-02  |δβ|=2.1193e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2368e+00  L_bc=1.6373e-02  |δβ|=7.9315e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2368e+00  L_bc=1.6373e-02  |δβ|=1.6146e-05
-[NL-PIBLS] Newton iter  18: L_pde=2.2368e+00  L_bc=1.6373e-02  |δβ|=1.1753e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=4.4528e-43  |δβ|=5.3026e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8817e+00  L_bc=1.5074e-02  |δβ|=2.1352e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2348e+00  L_bc=1.6311e-02  |δβ|=8.5024e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2244e+00  L_bc=1.6361e-02  |δβ|=3.3824e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2241e+00  L_bc=1.6363e-02  |δβ|=1.3455e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2241e+00  L_bc=1.6363e-02  |δβ|=5.3504e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2241e+00  L_bc=1.6363e-02  |δβ|=2.1771e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2241e+00  L_bc=1.6363e-02  |δβ|=1.1975e-04
-[NL-PIBLS] Newton iter  16: L_pde=2.2241e+00  L_bc=1.6363e-02  |δβ|=7.1559e-06
-[NL-PIBLS] Newton iter  18: L_pde=2.2241e+00  L_bc=1.6363e-02  |δβ|=2.1663e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=1.9848e-44  |δβ|=5.3408e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8840e+00  L_bc=1.5152e-02  |δβ|=2.1510e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2363e+00  L_bc=1.6395e-02  |δβ|=8.5662e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2258e+00  L_bc=1.6446e-02  |δβ|=3.4081e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2255e+00  L_bc=1.6448e-02  |δβ|=1.3558e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2255e+00  L_bc=1.6448e-02  |δβ|=5.3943e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2255e+00  L_bc=1.6448e-02  |δβ|=2.1569e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2255e+00  L_bc=1.6448e-02  |δβ|=5.3242e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2255e+00  L_bc=1.6448e-02  |δβ|=3.8447e-06
-[NL-PIBLS] Newton iter  18: L_pde=2.2255e+00  L_bc=1.6448e-02  |δβ|=1.1271e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=1.3899e-43  |δβ|=5.2830e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8924e+00  L_bc=1.5005e-02  |δβ|=2.1271e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2462e+00  L_bc=1.6236e-02  |δβ|=8.4703e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2358e+00  L_bc=1.6286e-02  |δβ|=3.3698e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2356e+00  L_bc=1.6288e-02  |δβ|=1.3405e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2356e+00  L_bc=1.6288e-02  |δβ|=5.3331e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2356e+00  L_bc=1.6288e-02  |δβ|=2.1399e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2356e+00  L_bc=1.6288e-02  |δβ|=8.2487e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2356e+00  L_bc=1.6288e-02  |δβ|=1.4581e-05
-[NL-PIBLS] Newton iter  18: L_pde=2.2356e+00  L_bc=1.6288e-02  |δβ|=3.9652e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=1.4140e-42  |δβ|=5.3431e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8907e+00  L_bc=1.5184e-02  |δβ|=2.1517e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2426e+00  L_bc=1.6430e-02  |δβ|=8.5687e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2322e+00  L_bc=1.6481e-02  |δβ|=3.4090e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2319e+00  L_bc=1.6483e-02  |δβ|=1.3561e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2319e+00  L_bc=1.6483e-02  |δβ|=5.3919e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2319e+00  L_bc=1.6483e-02  |δβ|=2.1625e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2319e+00  L_bc=1.6483e-02  |δβ|=9.6054e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2319e+00  L_bc=1.6483e-02  |δβ|=2.6602e-05
-[NL-PIBLS] Newton iter  18: L_pde=2.2319e+00  L_bc=1.6483e-02  |δβ|=1.5931e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=2.2629e-43  |δβ|=5.2799e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8857e+00  L_bc=1.4973e-02  |δβ|=2.1260e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2399e+00  L_bc=1.6202e-02  |δβ|=8.4666e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2295e+00  L_bc=1.6252e-02  |δβ|=3.3684e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2292e+00  L_bc=1.6254e-02  |δβ|=1.3401e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2292e+00  L_bc=1.6254e-02  |δβ|=5.3323e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2292e+00  L_bc=1.6254e-02  |δβ|=2.1447e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2292e+00  L_bc=1.6254e-02  |δβ|=1.0123e-04
-[NL-PIBLS] Newton iter  16: L_pde=2.2292e+00  L_bc=1.6254e-02  |δβ|=8.3784e-06
-[NL-PIBLS] Newton iter  18: L_pde=2.2292e+00  L_bc=1.6254e-02  |δβ|=2.1175e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=6.0303e-44  |δβ|=5.3175e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8893e+00  L_bc=1.5170e-02  |δβ|=2.1411e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2414e+00  L_bc=1.6415e-02  |δβ|=8.5264e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2309e+00  L_bc=1.6465e-02  |δβ|=3.3921e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2307e+00  L_bc=1.6468e-02  |δβ|=1.3494e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2306e+00  L_bc=1.6468e-02  |δβ|=5.3698e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2306e+00  L_bc=1.6468e-02  |δβ|=2.1372e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2306e+00  L_bc=1.6468e-02  |δβ|=6.8779e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2306e+00  L_bc=1.6468e-02  |δβ|=5.7214e-05
-[NL-PIBLS] Newton iter  18: L_pde=2.2306e+00  L_bc=1.6468e-02  |δβ|=2.3559e-05
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=2.6087e-43  |δβ|=5.3050e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8870e+00  L_bc=1.4986e-02  |δβ|=2.1364e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2410e+00  L_bc=1.6216e-02  |δβ|=8.5081e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2306e+00  L_bc=1.6266e-02  |δβ|=3.3850e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2303e+00  L_bc=1.6268e-02  |δβ|=1.3466e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2303e+00  L_bc=1.6268e-02  |δβ|=5.3560e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2303e+00  L_bc=1.6268e-02  |δβ|=2.1703e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2303e+00  L_bc=1.6268e-02  |δβ|=9.3066e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2303e+00  L_bc=1.6268e-02  |δβ|=1.1130e-05
-[NL-PIBLS] Newton iter  18: L_pde=2.2303e+00  L_bc=1.6268e-02  |δβ|=8.5557e-06
-[NL-PIBLS] Newton iter   0: L_pde=1.5491e+03  L_bc=3.7981e-44  |δβ|=5.3163e+05
-[NL-PIBLS] Newton iter   2: L_pde=4.8835e+00  L_bc=1.5090e-02  |δβ|=2.1408e+04
-[NL-PIBLS] Newton iter   4: L_pde=2.2364e+00  L_bc=1.6328e-02  |δβ|=8.5254e+02
-[NL-PIBLS] Newton iter   6: L_pde=2.2260e+00  L_bc=1.6378e-02  |δβ|=3.3918e+01
-[NL-PIBLS] Newton iter   8: L_pde=2.2257e+00  L_bc=1.6380e-02  |δβ|=1.3493e+00
-[NL-PIBLS] Newton iter  10: L_pde=2.2257e+00  L_bc=1.6381e-02  |δβ|=5.3650e-02
-[NL-PIBLS] Newton iter  12: L_pde=2.2257e+00  L_bc=1.6381e-02  |δβ|=2.1613e-03
-[NL-PIBLS] Newton iter  14: L_pde=2.2257e+00  L_bc=1.6381e-02  |δβ|=4.8376e-05
-[NL-PIBLS] Newton iter  16: L_pde=2.2257e+00  L_bc=1.6381e-02  |δβ|=1.2577e-05
-[NL-PIBLS] Newton iter  18: L_pde=2.2257e+00  L_bc=1.6381e-02  |δβ|=2.2651e-05
-[NL-Hybrid] Best loss = 2.624306e+00
-  RMSE = 5.587283e-02, Time = 87.380s
+Problem                   Method               RMSE (mean)    RMSE (std)     Time (mean)  Seeds OK  
+----------------------------------------------------------------------------------------------------
+  P1_LowFreq_Poisson      BO-PIBLS             7.7302e-06     3.6989e-06     17.5         5/5
+  P1_LowFreq_Poisson      PI-ELM               2.1893e-05     2.0959e-05     0.0          5/5
+  P1_LowFreq_Poisson      PINN-4L-128W         5.9856e-05     1.1960e-05     465.9        5/5
+  P1_LowFreq_Poisson      PINN-6L-128W         1.0534e-04     3.2274e-05     378.8        5/5
+  P1_LowFreq_Poisson      RAR-PINN-4L          7.4775e-05     2.8223e-05     549.7        5/5
 
---- PINN-2L-128W Adam(3000) + L-BFGS(1000) ---
-  [Adam] Epoch     0: L_pde=1.5487e+03  L_bc=6.3272e-03
-  [Adam] Epoch   600: L_pde=6.1101e-01  L_bc=3.3090e-02
-  [Adam] Epoch  1200: L_pde=2.5614e-01  L_bc=1.4247e-02
-  [Adam] Epoch  1800: L_pde=1.7808e-01  L_bc=6.0499e-03
-  [Adam] Epoch  2400: L_pde=1.1739e-01  L_bc=2.9662e-03
-  [L-BFGS] Starting (1000 iters)...
-  [L-BFGS] Iter     0: loss=1.2989e-01
-  [L-BFGS] Iter   200: loss=7.4311e-05
-  [L-BFGS] Iter   400: loss=1.6035e-05
-  [L-BFGS] Iter   600: loss=6.0005e-06
-  [L-BFGS] Iter   800: loss=4.2512e-06
-  Training done: 575.14s, final loss=4.2355e-06
-  RMSE = 6.142908e-05, Params = 17025
+  P2_HighFreq_Poisson     BO-PIBLS             1.0396e-04     2.0886e-05     41.6         5/5
+  P2_HighFreq_Poisson     PI-ELM               1.1581e-01     7.3493e-02     0.0          5/5
+  P2_HighFreq_Poisson     PINN-4L-128W         3.3852e-04     1.0107e-04     583.8        5/5
+  P2_HighFreq_Poisson     PINN-6L-128W         3.3279e-04     6.4720e-05     903.3        5/5
+  P2_HighFreq_Poisson     RAR-PINN-4L          3.6468e-04     7.4500e-05     1203.7       5/5
 
---- PINN-4L-128W Adam(3000) + L-BFGS(1000) ---
-  [Adam] Epoch     0: L_pde=1.5491e+03  L_bc=6.6682e-03
-  [Adam] Epoch   600: L_pde=1.2393e+00  L_bc=2.3536e-02
-  [Adam] Epoch  1200: L_pde=1.5068e+00  L_bc=1.7290e-02
-  [Adam] Epoch  1800: L_pde=1.6832e+00  L_bc=1.2905e-02
-  [Adam] Epoch  2400: L_pde=2.0190e+00  L_bc=1.0101e-02
-  [L-BFGS] Starting (1000 iters)...
-  [L-BFGS] Iter     0: loss=5.5908e-01
-  [L-BFGS] Iter   200: loss=2.9285e-05
-  [L-BFGS] Iter   400: loss=6.1517e-06
-  [L-BFGS] Iter   600: loss=2.5140e-06
-  [L-BFGS] Iter   800: loss=2.1795e-06
-  Training done: 1323.54s, final loss=2.1739e-06
-  RMSE = 4.949284e-05, Params = 50049
+  P3_Nonlinear_u3         BO-PIBLS             1.6470e-05     4.7959e-06     24.3         5/5
+  P3_Nonlinear_u3         PI-ELM               2.1883e-05     2.0937e-05     0.0          5/5
+  P3_Nonlinear_u3         PINN-4L-128W         6.3468e-05     1.3623e-05     242.2        5/5
+  P3_Nonlinear_u3         PINN-6L-128W         6.6837e-05     1.3417e-05     382.5        5/5
+  P3_Nonlinear_u3         RAR-PINN-4L          7.7712e-05     2.3565e-05     534.9        5/5
 
-===========================================================================
-  Experiment B: Hybrid nonlinear (P4 sin(u))
-===========================================================================
-  Method                                RMSE     Time(s)    Params
-  ----------------------------  ------------  ----------  --------
-  NL-PIBLS-N50                    9.9320e-04        0.46         -
-  NL-PIBLS-N30                    4.3330e-02        0.17         -
-  NL-PIBLS-Hybrid-N30             5.5873e-02       87.38         -
-  PINN-2L-128W-LBFGS              6.1429e-05      575.14     17025
-  PINN-4L-128W-LBFGS              4.9493e-05     1323.54     50049
+  P4_Nonlinear_sinu       BO-PIBLS             9.4858e-06     2.8785e-06     24.0         5/5
+  P4_Nonlinear_sinu       PI-ELM               2.1933e-05     2.1056e-05     0.0          5/5
+  P4_Nonlinear_sinu       PINN-4L-128W         7.1156e-05     1.0483e-05     244.2        5/5
+  P4_Nonlinear_sinu       PINN-6L-128W         7.9827e-05     1.8548e-05     368.9        5/5
+  P4_Nonlinear_sinu       RAR-PINN-4L          6.8301e-05     1.1142e-05     547.2        5/5
 
-  Best: PINN-4L-128W-LBFGS (RMSE = 4.9493e-05)
-===========================================================================
 
-===========================================================================
-  最终总结
-===========================================================================
+================================================================================
+ABLATION: BO-PIBLS vs PI-ELM (gradient learning value)
+================================================================================
+  P1_LowFreq_Poisson        PI-ELM=2.1893e-05 -> BO-PIBLS=7.7302e-06  Improvement: +64.7%  SpeedRatio: 0.0x
+  P2_HighFreq_Poisson       PI-ELM=1.1581e-01 -> BO-PIBLS=1.0396e-04  Improvement: +99.9%  SpeedRatio: 0.0x
+  P3_Nonlinear_u3           PI-ELM=2.1883e-05 -> BO-PIBLS=1.6470e-05  Improvement: +24.7%  SpeedRatio: 0.0x
+  P4_Nonlinear_sinu         PI-ELM=2.1933e-05 -> BO-PIBLS=9.4858e-06  Improvement: +56.8%  SpeedRatio: 0.0x
 
-  实验 A — Q2 回应: PINN 加强后是否仍不如 NL-PIBLS?
-    NL-PIBLS best: NL-PIBLS-N60 = 2.2923e-06
-    PINN best:     PINN-4L-128W-LBFGS = 3.2277e-05
-    => NL-PIBLS 仍然领先 14.1x, 速度快 3429x
 
-  实验 B — Q1/Q3 回应: Hybrid 在非线性上效果如何?
-    Hybrid vs Pure Newton (N=30): 4.3330e-02 -> 5.5873e-02 (no improve)
-    NL-PIBLS best: NL-PIBLS-N50 = 9.9320e-04
-    PINN best:     PINN-4L-128W-LBFGS = 4.9493e-05
-    => PINN 加强后反超 20.1x
-
-===========================================================================
+Experiment completed!
